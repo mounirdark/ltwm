@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LTWM 💬</title>
+<title>LTWM ❤️</title>
 
 <style>
 body {
@@ -14,6 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
+    overflow: hidden;
 }
 
 .container {
@@ -22,55 +23,90 @@ body {
     text-align: center;
 }
 
+/* Splash */
+#splash {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, #ff5f7e, #ff9a9e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    z-index: 10;
+    animation: fadeOut 2s ease forwards;
+    animation-delay: 1.5s;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+
 .card {
     background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(15px);
-    border-radius: 25px;
+    backdrop-filter: blur(18px);
+    border-radius: 28px;
     padding: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
     font-size: 22px;
-    min-height: 180px;
+    min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
     color: #222;
-
-    /* animation */
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.card.hide {
-    opacity: 0;
-    transform: translateY(20px);
 }
 
 button {
     margin-top: 20px;
     width: 100%;
-    padding: 15px;
+    padding: 16px;
     border: none;
-    border-radius: 15px;
+    border-radius: 16px;
     font-size: 18px;
-    background: #ff5f7e;
+    background: #ff4d6d;
     color: white;
     font-weight: bold;
+    box-shadow: 0 10px 20px rgba(255,77,109,0.3);
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
+}
+
+.top {
+    margin-bottom: 10px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.fade {
+    opacity: 0;
+    transform: translateY(20px);
 }
 </style>
 </head>
 
 <body>
 
+<!-- Splash screen -->
+<div id="splash">
+❤️ LTWM
+</div>
+
 <div class="container">
 
+    <div class="top" id="mode"></div>
+
     <div class="card" id="question">
-        Clique sur le bouton 💬
+        Chargement...
     </div>
 
-    <button onclick="newQuestion()">Question</button>
+    
+
+    <button onclick="nextQuestion()">Question</button>
 
 </div>
 
@@ -174,20 +210,31 @@ const questions = [
 "Quelle question profonde aimerais-tu me poser maintenant ?"
 ];
 
-function newQuestion() {
+let index = 0;
+let connection = 0;
+
+function nextQuestion() {
     const card = document.getElementById("question");
 
-    card.classList.add("hide");
+    // animation sortie
+    card.classList.add("fade");
 
     setTimeout(() => {
-        const index = Math.floor(Math.random() * questions.length);
-        card.innerText = questions[index];
-        card.classList.remove("hide");
-    }, 250);
+
+        const q = questions[Math.floor(Math.random() * questions.length)];
+        card.innerText = q;
+
+        // animation entrée
+        card.classList.remove("fade");
+
+    }, 200);
 }
 
-// init
-newQuestion();
+// splash remove
+setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+    nextQuestion();
+}, 1800);
 
 </script>
 
