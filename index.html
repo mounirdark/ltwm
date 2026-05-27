@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LTWM 💬</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.card {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    font-size: 22px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #222;
+
+    /* animation */
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    background: #ff5f7e;
+    color: white;
+    font-weight: bold;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card" id="question">
+        Clique sur le bouton 💬
+    </div>
+
+    <button onclick="newQuestion()">Question</button>
+
+</div>
+
+<script>
+
+const questions = [
+"Souhaites-tu devenir célèbre ?",
+"De quelle manière aimerais-tu être célèbre ?",
+"Avant d’appeler quelqu’un, répètes-tu parfois ce que tu vas dire ?",
+"À quoi ressemblerait pour toi une journée parfaite ?",
+"Quand as-tu chanté pour toi-même pour la dernière fois ?",
+"Quand as-tu chanté devant quelqu’un pour la dernière fois ?",
+"Si tu pouvais vivre jusqu’à 90 ans en gardant soit ton corps de tes 30 ans, soit ton esprit de tes 30 ans, que choisirais-tu ?",
+"As-tu déjà un pressentiment sur la façon dont tu mourras ?",
+"Quelles sont trois choses que nous semblons avoir en commun ?",
+"Pour quoi ressens-tu le plus de gratitude dans ta vie ?",
+"Si tu pouvais changer un aspect de ton éducation, que changerais-tu ?",
+"Peux-tu raconter ton histoire de vie en quatre minutes ?",
+"Si tu pouvais te réveiller demain avec une nouvelle qualité ou capacité, laquelle choisirais-tu ?",
+"Si une boule de cristal pouvait te révéler une vérité sur ton avenir, voudrais-tu la connaître ?",
+"Y a-t-il quelque chose que tu rêves de faire depuis longtemps ?",
+"Pourquoi ne l’as-tu pas encore fait ?",
+"Quelle est ta plus grande réussite jusqu’à aujourd’hui ?",
+"Qu’est-ce qui compte le plus dans une amitié ?",
+"Quel est ton souvenir le plus précieux ?",
+"Quel est ton souvenir le plus douloureux ?",
+"Si tu apprenais qu’il ne te reste qu’un an à vivre, changerais-tu quelque chose à ta façon de vivre ?",
+"Que signifie l’amour pour toi ?",
+"Quels rôles jouent l’amour et l’affection dans ta vie ?",
+"Quelle qualité apprécies-tu le plus chez les autres ?",
+"Quelle qualité apprécies-tu le plus chez toi ?",
+"À quel point te sens-tu proche de ta famille ?",
+"Penses-tu avoir eu une enfance plus heureuse que la moyenne ?",
+"Comment décrirais-tu ta relation avec ta mère ?",
+"Complète cette phrase : j’aimerais avoir quelqu’un avec qui partager…",
+"Si nous devenions proches, qu’aimerais-tu que je sache sur toi ?",
+"Qu’est-ce que tu apprécies déjà chez moi ?",
+"Quel est ton moment le plus embarrassant ?",
+"Quand as-tu pleuré devant quelqu’un pour la dernière fois ?",
+"Quand as-tu pleuré seul pour la dernière fois ?",
+"Quelle chose trop sérieuse mériterait qu’on en rie davantage ?",
+"Si tu mourais ce soir sans pouvoir parler à personne, quel regret aurais-tu ?",
+"Qu’est-ce que tu n’as jamais osé dire à quelqu’un ?",
+"Ta maison prend feu : quel objet sauverais-tu ?",
+"Quelle perte te semblerait la plus difficile à supporter ?",
+"Quel problème personnel aimerais-tu résoudre aujourd’hui ?",
+"Si tu pouvais connaître la vérité absolue sur une seule question, laquelle choisirais-tu ?",
+"Quelle peur influence aujourd’hui tes décisions sans que les autres le remarquent ?",
+"Quel événement de ton enfance t’a le plus façonné ?",
+"Quel trait de personnalité t’a aidé le plus dans la vie ?",
+"Quel trait de personnalité t’a créé le plus de problèmes ?",
+"Les gens changent-ils ou révèlent-ils qui ils sont ?",
+"Quelle est la plus grande leçon que la douleur t’a apprise ?",
+"Qu’est-ce qui te fait te sentir véritablement vivant ?",
+"Qu’est-ce qui te fait perdre la notion du temps ?",
+"À quoi accordes-tu trop d’importance actuellement ?",
+"À quoi n’accordes-tu pas assez d’importance actuellement ?",
+"Quel est le plus grand risque que tu aies pris ?",
+"Quel est celui que tu n’as jamais osé prendre ?",
+"Quelle croyance avais-tu à 15 ans et que tu trouves fausse aujourd’hui ?",
+"Quel jugement des autres a encore de l’impact sur toi ?",
+"Si personne ne pouvait te critiquer, que ferais-tu différemment ?",
+"Quelle personne a eu le plus d’influence sur ton identité ?",
+"Quand te sens-tu le plus authentique ?",
+"Quand te sens-tu obligé de jouer un rôle ?",
+"Quel besoin émotionnel as-tu le plus de mal à exprimer ?",
+"Quelle émotion as-tu appris à cacher ?",
+"Quelle est la différence entre ce que tu montres et ce que tu ressens ?",
+"Penses-tu que notre personnalité est façonnée par l’environnement ou la biologie ?",
+"Quelle habitude aimerais-tu transmettre à tes enfants ?",
+"Qu’est-ce que tu ne voudrais jamais transmettre à tes enfants ?",
+"À quoi ressemblerait une vie réussie selon toi ?",
+"Qu’est-ce qui te donne un sentiment de sécurité ?",
+"À quel moment t’es-tu senti compris pour la dernière fois ?",
+"Quand t’es-tu senti profondément seul pour la dernière fois ?",
+"Qu’est-ce qui te fait te sentir aimé ?",
+"Qu’est-ce qui te fait te sentir rejeté ?",
+"Si ton meilleur ami décrivait ton défaut, que dirait-il ?",
+"Si ton pire critique décrivait ta qualité, que dirait-il ?",
+"Quelle erreur as-tu mis longtemps à te pardonner ?",
+"Que signifie pour toi pardonner quelqu’un ?",
+"Quelle injustice t’énerve le plus ?",
+"Quel est ton plus grand moteur : la peur ou le désir ?",
+"Quelle est la différence entre ce que tu montres et ce que tu ressens ?",
+"Dans quelles situations mens-tu le plus facilement ?",
+"Quel aspect de toi les gens comprennent rarement ?",
+"Qu’est-ce qui te fait te sentir respecté ?",
+"Quel besoin est le plus important : liberté, sécurité, reconnaissance ou appartenance ?",
+"Quand prends-tu les meilleures décisions : sous pression ou avec du temps ?",
+"Quel comportement humain te fascine le plus ?",
+"Si tu pouvais revivre une journée de ta vie, laquelle choisirais-tu ?",
+"Qu’est-ce qui vaut la peine de souffrir pour toi ?",
+"Quelle est la chose la plus courageuse que tu aies faite ?",
+"À quel point ton passé influence-t-il ton présent ?",
+"Quelle partie de toi cherches-tu encore à comprendre ?",
+"Qu’est-ce qui te donne un sens dans la vie ?",
+"Quelle vérité sur toi as-tu découverte récemment ?",
+"Quel conseil donnerais-tu à ton toi de 10 ans ?",
+"Qu’aimerais-tu que les gens disent de toi après ta mort ?",
+"Quelle est la question que tu aurais aimé qu’on te pose plus souvent ?",
+"Quelle question profonde aimerais-tu me poser maintenant ?"
+];
+
+function newQuestion() {
+    const card = document.getElementById("question");
+
+    card.classList.add("hide");
+
+    setTimeout(() => {
+        const index = Math.floor(Math.random() * questions.length);
+        card.innerText = questions[index];
+        card.classList.remove("hide");
+    }, 250);
+}
+
+// init
+newQuestion();
+
+</script>
+
+</body>
+</html>
