@@ -3,270 +3,360 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LTWM ❤️</title>
+
+<title>LTWM</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
-    overflow: hidden;
+
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle at top,#ff9a9e,#fad0c4,#fbc2eb);
+    overflow:hidden;
 }
 
-.container {
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
+.container{
+    width:90%;
+    max-width:520px;
+    text-align:center;
 }
 
-/* Splash */
-#splash {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top, #ff5f7e, #ff9a9e);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    z-index: 10;
-    animation: fadeOut 2s ease forwards;
-    animation-delay: 1.5s;
+#splash{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top,#ff5f7e,#ff9a9e);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:white;
+    font-size:32px;
+    font-weight:bold;
+    z-index:10;
+    animation:fadeOut 2s ease forwards;
+    animation-delay:1.5s;
 }
 
-@keyframes fadeOut {
-    to { opacity: 0; visibility: hidden; }
+@keyframes fadeOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
 }
 
-.card {
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(18px);
-    border-radius: 28px;
-    padding: 30px;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-    font-size: 22px;
-    min-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    color: #222;
+.card{
+    background:rgba(255,255,255,0.22);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:35px;
+    min-height:240px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#222;
+
+    font-size:24px;
+    line-height:1.5;
+
+    box-shadow:0 15px 50px rgba(0,0,0,0.15);
+
+    transition:all .3s ease;
 }
 
-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 16px;
-    font-size: 18px;
-    background: #ff4d6d;
-    color: white;
-    font-weight: bold;
-    box-shadow: 0 10px 20px rgba(255,77,109,0.3);
+button{
+    margin-top:22px;
+    width:100%;
+    padding:18px;
+
+    border:none;
+    border-radius:18px;
+
+    font-size:18px;
+    font-weight:600;
+
+    background:#ff4d6d;
+    color:white;
+
+    box-shadow:0 10px 20px rgba(255,77,109,.25);
+
+    transition:all .15s ease;
 }
 
-button:active {
-    transform: scale(0.97);
+button:active{
+    transform:scale(.97);
 }
 
-.top {
-    margin-bottom: 10px;
-    font-size: 14px;
-    opacity: 0.7;
+.fade{
+    opacity:0;
+    transform:translateY(20px);
 }
 
-.fade {
-    opacity: 0;
-    transform: translateY(20px);
+.stats{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
+
+.stat{
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(10px);
+    border-radius:16px;
+    padding:12px;
+    font-size:14px;
+    color:#222;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- Splash screen -->
 <div id="splash">
-❤️ LTWM
+    LTWM
 </div>
 
 <div class="container">
 
-    <div class="top" id="mode"></div>
-
-    <div class="card" id="question">
+    <div class="card fade" id="question">
         Chargement...
     </div>
 
-    
+    <button onclick="nextQuestion()">
+        Question
+    </button>
 
-    <button onclick="nextQuestion()">Question</button>
+    <div class="stats">
+        <div class="stat">Etincelle ✨ <span id="sparkScore">0</span></div>
+        <div class="stat">Connexion 🌿 <span id="flowScore">0</span></div>
+        <div class="stat">Profondeur 🌊 <span id="depthScore">0</span></div>
+        <div class="stat">Verité 🔥 <span id="rawScore">0</span></div>
+        <div class="stat" style="grid-column:1/3;">
+            Intimité 💫 <span id="mirrorScore">0</span>
+        </div>
+    </div>
 
 </div>
 
 <script>
 
 const questions = [
-"Souhaites-tu devenir célèbre ?",
-"De quelle manière aimerais-tu être célèbre ?",
-"Avant d'appeler quelqu'un, répètes-tu parfois ce que tu vas dire ?",
-"À quoi ressemblerait pour toi une journée parfaite ?",
-"Quand as-tu chanté pour toi-même pour la dernière fois ?",
-"Quand as-tu chanté devant quelqu'un pour la dernière fois ?",
-"Si tu pouvais vivre jusqu'à 90 ans en gardant soit ton corps de tes 30 ans, soit ton esprit de tes 30 ans, que choisirais-tu ?",
-"Quelles sont trois choses que nous semblons avoir en commun ?",
-"Pour quoi ressens-tu le plus de gratitude dans ta vie ?",
-"Si tu pouvais changer un aspect de ton éducation, que changerais-tu ?",
-"Peux-tu raconter ton histoire de vie en quatre minutes ?",
-"Si tu pouvais te réveiller demain avec une nouvelle qualité ou capacité, laquelle choisirais-tu ?",
-"Si une boule de cristal pouvait te révéler une vérité sur ton avenir, voudrais-tu la connaître ?",
-"Y a-t-il quelque chose que tu rêves de faire depuis longtemps ?",
-"Pourquoi ne l'as-tu pas encore fait ?",
-"Quelle est ta plus grande réussite jusqu'à aujourd'hui ?",
-"Qu'est-ce qui compte le plus dans une amitié ?",
-"Quel est ton souvenir le plus précieux ?",
-"Quel est ton souvenir le plus douloureux ?",
-"Si tu apprenais qu'il ne te reste qu'un an à vivre, changerais-tu quelque chose à ta façon de vivre ?",
-"Que signifie l'amour pour toi ?",
-"Quels rôles jouent l'amour et l'affection dans ta vie ?",
-"Quelle qualité apprécies-tu le plus chez les autres ?",
-"Quelle qualité apprécies-tu le plus chez toi ?",
-"À quel point te sens-tu proche de ta famille ?",
-"Penses-tu avoir eu une enfance plus heureuse que la moyenne ?",
-"Comment décrirais-tu ta relation avec ta mère ?",
-"Complète cette phrase : j'aimerais avoir quelqu'un avec qui partager…",
-"Qu'est-ce que tu apprécies déjà chez moi ?",
-"Quel est ton moment le plus embarrassant ?",
-"Quand as-tu pleuré devant quelqu'un pour la dernière fois ?",
-"Quand as-tu pleuré seul pour la dernière fois ?",
-"Quelle chose trop sérieuse mériterait qu'on en rie davantage ?",
-"Si tu mourais ce soir sans pouvoir parler à personne, quel regret aurais-tu ?",
-"Qu'est-ce que tu n'as jamais osé dire à quelqu'un ?",
-"Ta maison prend feu : quel objet sauverais-tu ?",
-"Quelle perte te semblerait la plus difficile à supporter ?",
-"Quel problème personnel aimerais-tu résoudre aujourd'hui ?",
-"Quelle peur influence aujourd'hui tes décisions sans que les autres le remarquent ?",
-"Quel événement de ton enfance t'a le plus façonné ?",
-"Quel trait de personnalité t'a aidé le plus dans la vie ?",
-"Quel trait de personnalité t'a créé le plus de problèmes ?",
-"Les gens changent-ils ou révèlent-ils qui ils sont ?",
-"Quelle est la plus grande leçon que la douleur t'a apprise ?",
-"Qu'est-ce qui te fait te sentir véritablement vivant ?",
-"Qu'est-ce qui te fait perdre la notion du temps ?",
-"À quoi accordes-tu trop d'importance actuellement ?",
-"À quoi n'accordes-tu pas assez d'importance actuellement ?",
-"Quel est le plus grand risque que tu aies pris ?",
-"Quel est le risque que tu n'as jamais osé prendre ?",
-"Quelle croyance avais-tu à 15 ans et que tu trouves fausse aujourd'hui ?",
-"Quel jugement des autres a encore de l'impact sur toi ?",
-"Si personne ne pouvait te critiquer, que ferais-tu différemment ?",
-"Quelle personne a eu le plus d'influence sur ton identité ?",
-"Quand te sens-tu le plus authentique ?",
-"Quand te sens-tu obligé de jouer un rôle ?",
-"Quel besoin émotionnel as-tu le plus de mal à exprimer ?",
-"Quelle émotion as-tu appris à cacher ?",
-"Quelle est la différence entre ce que tu montres et ce que tu ressens ?",
-"Penses-tu que notre personnalité est façonnée par l'environnement ou la biologie ?",
-"Quelle habitude aimerais-tu transmettre à tes enfants ?",
-"Qu'est-ce que tu ne voudrais jamais transmettre à tes enfants ?",
-"À quoi ressemblerait une vie réussie selon toi ?",
-"Qu'est-ce qui te donne un sentiment de sécurité ?",
-"À quel moment t'es-tu senti compris pour la dernière fois ?",
-"Quand t'es-tu senti profondément seul pour la dernière fois ?",
-"Qu'est-ce qui te fait te sentir aimé ?",
-"Qu'est-ce qui te fait te sentir rejeté ?",
-"Si ton meilleur ami décrivait ton défaut, que dirait-il ?",
-"Si ton pire critique décrivait ta qualité, que dirait-il ?",
-"Quelle erreur as-tu mis longtemps à te pardonner ?",
-"Que signifie pour toi pardonner quelqu'un ?",
-"Quelle injustice t'énerve le plus ?",
-"Quel est ton plus grand moteur : la peur ou le désir ?",
-"Dans quelles situations mens-tu le plus facilement ?",
-"Quel aspect de toi les gens comprennent rarement ?",
-"Qu'est-ce qui te fait te sentir respecté ?",
-"Quel besoin est le plus important : liberté, sécurité, reconnaissance ou appartenance ?",
-"Quand prends-tu les meilleures décisions : sous pression ou avec du temps ?",
-"Quel comportement humain te fascine le plus ?",
-"Si tu pouvais revivre une journée de ta vie, laquelle choisirais-tu ?",
-"Qu'est-ce qui vaut la peine de souffrir pour toi ?",
-"Quelle est la chose la plus courageuse que tu aies faite ?",
-"À quel point ton passé influence-t-il ton présent ?",
-"Quelle partie de toi cherches-tu encore à comprendre ?",
-"Qu'est-ce qui te donne un sens dans la vie ?",
-"Quelle vérité sur toi as-tu découverte récemment ?",
-"Quel conseil donnerais-tu à ton toi de 10 ans ?",
-"Qu'aimerais-tu que les gens disent de toi après ta mort ?",
-"Quelle est la question que tu aurais aimé qu'on te pose plus souvent ?",
-"Quelle question profonde aimerais-tu me poser maintenant ?",
-"Quelles sont les activités qui te procurent le plus de plaisir pendant ton temps libre ?",
-"Y a-t-il quelque chose de nouveau que tu as envie d'apprendre ou d'essayer ?",
-"Quels sont les livres, la musique ou les films qui t'ont le plus influencé ?",
-"Quels sont les principes ou les valeurs qui guident tes décisions importantes ?",
-"Ton point de vue sur quelque chose d'important a-t-il changé au fil du temps ?",
-"Quel est le défi que tu as relevé et qui t'a appris quelque chose de précieux ?",
-"Comment prends-tu soin de toi en période de stress ?",
-"Quel est le plaisir simple dont tu ne te lasses jamais ?",
-"À quoi ressemblerait ta vie idéale dans cinq ans ?",
-"Y a-t-il quelque chose que tu aimerais me dire plus souvent, mais que tu retiens ?",
-"Dans quels moments te sens-tu le plus proche de moi ?",
-"Dans quels moments te sens-tu le plus éloigné de moi ?",
-"Est-ce qu'il y a quelque chose que j'ai dit ou fait, même sans m'en rendre compte, qui t'a blessé ?",
-"Comment notre relation t'a-t-elle changé en tant que personne ?",
-"Y a-t-il un besoin que tu as dans cette relation et que tu n'as jamais exprimé clairement ?",
-"Quelle est la chose que tu voudrais avoir accompli à la fin de ta vie pour te dire que ça valait la peine ?",
-"Y a-t-il une version de toi-même que tu n'as pas encore osé être ?",
-"Y a-t-il quelque chose que tu as vécu étant enfant que tu n'as jamais vraiment raconté à personne ?",
-"Ta peur la plus profonde, ce n'est pas les araignées : c'est quoi vraiment ?",
-"Y a-t-il quelque chose en toi dont tu as longtemps eu honte, même à tes propres yeux ?",
-"Est-ce qu'il y a quelque chose que tu fais pour éviter d'affronter une peur, et dont tu es conscient ?",
-"Comment te décrirais-tu si tu ne pouvais utiliser ni ton métier, ni ton rôle familial, ni tes hobbies ?",
-"Y a-t-il une période de ta vie dont tu parles peu, mais qui t'a beaucoup coûté ?",
-"Est-ce qu'il t'est arrivé de te trahir toi-même pour plaire à quelqu'un, et qu'en penses-tu aujourd'hui ?",
-"Comment réagis-tu quand tu es en colère, et est-ce la version de toi dont tu es le plus fier ?",
-"Est-ce que tu te pardonnes facilement, ou est-ce que tu portes longtemps tes erreurs ?",
-"Y a-t-il quelqu'un à qui tu dois des excuses que tu n'as pas encore faites ?",
-"Y a-t-il quelqu'un que tu as perdu, par la mort ou par la vie, et dont l'absence te pèse encore ?",
-"Comment sais-tu que tu es vraiment en colère contre moi, versus juste fatigué ou stressé ?",
-"Est-ce que tu te sens libre de me dire les choses difficiles, ou y a-t-il des zones que tu évites ?",
-"Qu'est-ce que tu as besoin d'entendre de moi quand tu traverses quelque chose de difficile ?",
-"Qu'est-ce que je fais, même en tout petit, qui compte vraiment pour toi ?",
-"Qu'est-ce que tu attends de ton partenaire dans les moments vraiment difficiles de ta vie ?",
-"Qu'est-ce que tu penses que je ne comprends pas encore vraiment de toi ?",
-"Quelle est la chose la plus surprenante que tu aies découverte sur moi depuis qu'on se connaît ?"
+
+{ text:"Souhaites-tu devenir célèbre ?", category:"spark" },
+{ text:"De quelle manière aimerais-tu être célèbre ?", category:"spark" },
+{ text:"Avant d'appeler quelqu'un, répètes-tu parfois ce que tu vas dire ?", category:"spark" },
+{ text:"À quoi ressemblerait pour toi une journée parfaite ?", category:"flow" },
+{ text:"Quand as-tu chanté pour toi-même pour la dernière fois ?", category:"spark" },
+{ text:"Quand as-tu chanté devant quelqu'un pour la dernière fois ?", category:"spark" },
+{ text:"Si tu pouvais vivre jusqu'à 90 ans en gardant soit ton corps de tes 30 ans, soit ton esprit de tes 30 ans, que choisirais-tu ?", category:"depth" },
+{ text:"As-tu déjà un pressentiment sur la façon dont tu mourras ?", category:"raw" },
+{ text:"Quelles sont trois choses que nous semblons avoir en commun ?", category:"flow" },
+{ text:"Pour quoi ressens-tu le plus de gratitude dans ta vie ?", category:"flow" },
+{ text:"Si tu pouvais changer un aspect de ton éducation, que changerais-tu ?", category:"depth" },
+{ text:"Peux-tu raconter ton histoire de vie en quatre minutes ?", category:"depth" },
+{ text:"Si tu pouvais te réveiller demain avec une nouvelle qualité ou capacité, laquelle choisirais-tu ?", category:"flow" },
+{ text:"Si une boule de cristal pouvait te révéler une vérité sur ton avenir, voudrais-tu la connaître ?", category:"depth" },
+{ text:"Y a-t-il quelque chose que tu rêves de faire depuis longtemps ?", category:"flow" },
+{ text:"Pourquoi ne l'as-tu pas encore fait ?", category:"depth" },
+{ text:"Quelle est ta plus grande réussite jusqu'à aujourd'hui ?", category:"flow" },
+{ text:"Qu'est-ce qui compte le plus dans une amitié ?", category:"flow" },
+{ text:"Quel est ton souvenir le plus précieux ?", category:"depth" },
+{ text:"Quel est ton souvenir le plus douloureux ?", category:"raw" },
+{ text:"Si tu apprenais qu'il ne te reste qu'un an à vivre, changerais-tu quelque chose à ta façon de vivre ?", category:"raw" },
+{ text:"Que signifie l'amour pour toi ?", category:"mirror" },
+{ text:"Quels rôles jouent l'amour et l'affection dans ta vie ?", category:"mirror" },
+{ text:"Quelle qualité apprécies-tu le plus chez les autres ?", category:"flow" },
+{ text:"Quelle qualité apprécies-tu le plus chez toi ?", category:"flow" },
+{ text:"À quel point te sens-tu proche de ta famille ?", category:"depth" },
+{ text:"Penses-tu avoir eu une enfance plus heureuse que la moyenne ?", category:"depth" },
+{ text:"Comment décrirais-tu ta relation avec ta mère ?", category:"raw" },
+{ text:"Complète cette phrase : j'aimerais avoir quelqu'un avec qui partager…", category:"mirror" },
+{ text:"Si nous devenions proches, qu'aimerais-tu que je sache sur toi ?", category:"mirror" },
+{ text:"Qu'est-ce que tu apprécies déjà chez moi ?", category:"mirror" },
+{ text:"Quel est ton moment le plus embarrassant ?", category:"spark" },
+{ text:"Quand as-tu pleuré devant quelqu'un pour la dernière fois ?", category:"depth" },
+{ text:"Quand as-tu pleuré seul pour la dernière fois ?", category:"raw" },
+{ text:"Quelle chose trop sérieuse mériterait qu'on en rie davantage ?", category:"spark" },
+{ text:"Si tu mourais ce soir sans pouvoir parler à personne, quel regret aurais-tu ?", category:"raw" },
+{ text:"Qu'est-ce que tu n'as jamais osé dire à quelqu'un ?", category:"depth" },
+{ text:"Ta maison prend feu : quel objet sauverais-tu ?", category:"flow" },
+{ text:"Quelle perte te semblerait la plus difficile à supporter ?", category:"raw" },
+{ text:"Quel problème personnel aimerais-tu résoudre aujourd'hui ?", category:"depth" },
+{ text:"Si tu pouvais connaître la vérité absolue sur une seule question, laquelle choisirais-tu ?", category:"depth" },
+{ text:"Quelle peur influence aujourd'hui tes décisions sans que les autres le remarquent ?", category:"depth" },
+{ text:"Quel événement de ton enfance t'a le plus façonné ?", category:"raw" },
+{ text:"Quel trait de personnalité t'a aidé le plus dans la vie ?", category:"flow" },
+{ text:"Quel trait de personnalité t'a créé le plus de problèmes ?", category:"depth" },
+{ text:"Les gens changent-ils ou révèlent-ils qui ils sont ?", category:"depth" },
+{ text:"Quelle est la plus grande leçon que la douleur t'a apprise ?", category:"raw" },
+{ text:"Qu'est-ce qui te fait te sentir véritablement vivant ?", category:"flow" },
+{ text:"Qu'est-ce qui te fait perdre la notion du temps ?", category:"flow" },
+{ text:"À quoi accordes-tu trop d'importance actuellement ?", category:"depth" },
+{ text:"À quoi n'accordes-tu pas assez d'importance actuellement ?", category:"depth" },
+{ text:"Quel est le plus grand risque que tu aies pris ?", category:"flow" },
+{ text:"Quel est celui que tu n'as jamais osé prendre ?", category:"depth" },
+{ text:"Quelle croyance avais-tu à 15 ans et que tu trouves fausse aujourd'hui ?", category:"depth" },
+{ text:"Quel jugement des autres a encore de l'impact sur toi ?", category:"depth" },
+{ text:"Si personne ne pouvait te critiquer, que ferais-tu différemment ?", category:"flow" },
+{ text:"Quelle personne a eu le plus d'influence sur ton identité ?", category:"depth" },
+{ text:"Quand te sens-tu le plus authentique ?", category:"flow" },
+{ text:"Quand te sens-tu obligé de jouer un rôle ?", category:"depth" },
+{ text:"Quel besoin émotionnel as-tu le plus de mal à exprimer ?", category:"depth" },
+{ text:"Quelle émotion as-tu appris à cacher ?", category:"raw" },
+{ text:"Quelle est la différence entre ce que tu montres et ce que tu ressens ?", category:"raw" },
+{ text:"Penses-tu que notre personnalité est façonnée par l'environnement ou la biologie ?", category:"depth" },
+{ text:"Quelle habitude aimerais-tu transmettre à tes enfants ?", category:"mirror" },
+{ text:"Qu'est-ce que tu ne voudrais jamais transmettre à tes enfants ?", category:"raw" },
+{ text:"À quoi ressemblerait une vie réussie selon toi ?", category:"mirror" },
+{ text:"Qu'est-ce qui te donne un sentiment de sécurité ?", category:"flow" },
+{ text:"À quel moment t'es-tu senti compris pour la dernière fois ?", category:"depth" },
+{ text:"Quand t'es-tu senti profondément seul pour la dernière fois ?", category:"raw" },
+{ text:"Qu'est-ce qui te fait te sentir aimé ?", category:"mirror" },
+{ text:"Qu'est-ce qui te fait te sentir rejeté ?", category:"mirror" },
+{ text:"Si ton meilleur ami décrivait ton défaut, que dirait-il ?", category:"depth" },
+{ text:"Si ton pire critique décrivait ta qualité, que dirait-il ?", category:"flow" },
+{ text:"Quelle erreur as-tu mis longtemps à te pardonner ?", category:"raw" },
+{ text:"Que signifie pour toi pardonner quelqu'un ?", category:"depth" },
+{ text:"Quelle injustice t'énerve le plus ?", category:"flow" },
+{ text:"Quel est ton plus grand moteur : la peur ou le désir ?", category:"depth" },
+{ text:"Dans quelles situations mens-tu le plus facilement ?", category:"raw" },
+{ text:"Quel aspect de toi les gens comprennent rarement ?", category:"depth" },
+{ text:"Qu'est-ce qui te fait te sentir respecté ?", category:"flow" },
+{ text:"Quel besoin est le plus important : liberté, sécurité, reconnaissance ou appartenance ?", category:"depth" },
+{ text:"Quand prends-tu les meilleures décisions : sous pression ou avec du temps ?", category:"flow" },
+{ text:"Quel comportement humain te fascine le plus ?", category:"flow" },
+{ text:"Si tu pouvais revivre une journée de ta vie, laquelle choisirais-tu ?", category:"depth" },
+{ text:"Qu'est-ce qui vaut la peine de souffrir pour toi ?", category:"raw" },
+{ text:"Quelle est la chose la plus courageuse que tu aies faite ?", category:"flow" },
+{ text:"À quel point ton passé influence-t-il ton présent ?", category:"depth" },
+{ text:"Quelle partie de toi cherches-tu encore à comprendre ?", category:"depth" },
+{ text:"Qu'est-ce qui te donne un sens dans la vie ?", category:"mirror" },
+{ text:"Quelle vérité sur toi as-tu découverte récemment ?", category:"depth" },
+{ text:"Quel conseil donnerais-tu à ton toi de 10 ans ?", category:"depth" },
+{ text:"Qu'aimerais-tu que les gens disent de toi après ta mort ?", category:"raw" },
+{ text:"Quelle est la question que tu aurais aimé qu'on te pose plus souvent ?", category:"depth" },
+{ text:"Quelle question profonde aimerais-tu me poser maintenant ?", category:"mirror" },
+{ text:"Quelles sont les activités qui te procurent le plus de plaisir pendant ton temps libre ?", category:"spark" },
+{ text:"Y a-t-il quelque chose de nouveau que tu as envie d'apprendre ou d'essayer ?", category:"flow" },
+{ text:"Quels sont les livres, la musique ou les films qui t'ont le plus influencé ?", category:"flow" },
+{ text:"Quels sont les principes ou les valeurs qui guident tes décisions importantes ?", category:"depth" },
+{ text:"Ton point de vue sur quelque chose d'important a-t-il changé au fil du temps ?", category:"depth" },
+{ text:"Quel est le défi que tu as relevé et qui t'a appris quelque chose de précieux ?", category:"flow" },
+{ text:"Comment prends-tu soin de toi en période de stress ?", category:"flow" },
+{ text:"Quel est le plaisir simple dont tu ne te lasses jamais ?", category:"spark" },
+{ text:"À quoi ressemblerait ta vie idéale dans cinq ans ?", category:"mirror" },
+{ text:"Quel est le moment où tu as réalisé que tu m'aimais vraiment, pas seulement que tu m'appréciais ?", category:"mirror" },
+{ text:"Y a-t-il quelque chose que tu aimerais me dire plus souvent, mais que tu retiens ?", category:"mirror" },
+{ text:"Dans quels moments te sens-tu le plus proche de moi ?", category:"mirror" },
+{ text:"Dans quels moments te sens-tu le plus éloigné de moi ?", category:"mirror" },
+{ text:"Est-ce qu'il y a quelque chose que j'ai dit ou fait qui t'a blessé ?", category:"mirror" },
+{ text:"Comment notre relation t'a-t-elle changé en tant que personne ?", category:"mirror" },
+{ text:"Y a-t-il un besoin que tu as dans cette relation et que tu n'as jamais exprimé clairement ?", category:"mirror" },
+{ text:"Quelle est la chose que tu voudrais avoir accompli à la fin de ta vie ?", category:"raw" },
+{ text:"Y a-t-il une version de toi-même que tu n'as pas encore osé être ?", category:"raw" },
+{ text:"Qu'est-ce que tu as appris sur l'amour en regardant tes parents ?", category:"raw" },
+{ text:"Y a-t-il quelque chose que tu as vécu enfant que tu n'as jamais raconté ?", category:"raw" },
+{ text:"Ta peur la plus profonde, ce n'est pas les araignées : c'est quoi vraiment ?", category:"raw" },
+{ text:"Y a-t-il quelque chose en toi dont tu as longtemps eu honte ?", category:"raw" },
+{ text:"Est-ce qu'il y a quelque chose que tu fais pour éviter d'affronter une peur ?", category:"depth" },
+{ text:"Comment te décrirais-tu sans ton métier ni tes hobbies ?", category:"depth" },
+{ text:"Y a-t-il une période de ta vie dont tu parles peu ?", category:"raw" },
+{ text:"T'est-il arrivé de te trahir toi-même pour plaire à quelqu'un ?", category:"raw" },
+{ text:"Comment réagis-tu quand tu es en colère ?", category:"depth" },
+{ text:"Est-ce que tu te pardonnes facilement ?", category:"depth" },
+{ text:"Y a-t-il quelqu'un à qui tu dois des excuses ?", category:"raw" },
+{ text:"Y a-t-il quelqu'un dont l'absence te pèse encore ?", category:"raw" },
+{ text:"Comment sais-tu que tu es vraiment en colère contre moi ?", category:"mirror" },
+{ text:"Te sens-tu libre de me dire les choses difficiles ?", category:"mirror" },
+{ text:"Qu'as-tu besoin d'entendre de moi quand tu traverses quelque chose de difficile ?", category:"mirror" },
+{ text:"Qu'est-ce que je fais qui compte vraiment pour toi ?", category:"mirror" },
+{ text:"Comment pourrais-je mieux t'aimer, concrètement ?", category:"mirror" },
+{ text:"Y a-t-il une expérience que tu veux absolument vivre avec moi ?", category:"mirror" },
+{ text:"Qu'attends-tu de moi dans les moments vraiment difficiles ?", category:"mirror" },
+{ text:"Quelle est la chose qui te plaît le plus chez moi ?", category:"mirror" },
+{ text:"Qu'est-ce que tu penses que je ne comprends pas encore vraiment de toi ?", category:"mirror" },
+{ text:"Quelle est la chose la plus surprenante que tu aies découverte sur moi ?", category:"mirror" },
+{ text:"Si tu devais choisir une seule chose que notre relation t'a apprise sur toi-même ?", category:"mirror" }
 
 ];
 
-let index = 0;
-let connection = 0;
+let scores = {
+    spark:0,
+    flow:0,
+    depth:0,
+    raw:0,
+    mirror:0
+};
 
-function nextQuestion() {
-    const card = document.getElementById("question");
+let usedQuestions = [];
 
-    // animation sortie
-    card.classList.add("fade");
+function updateScores(){
 
-    setTimeout(() => {
+    document.getElementById("sparkScore").innerText = scores.spark;
+    document.getElementById("flowScore").innerText = scores.flow;
+    document.getElementById("depthScore").innerText = scores.depth;
+    document.getElementById("rawScore").innerText = scores.raw;
+    document.getElementById("mirrorScore").innerText = scores.mirror;
 
-        const q = questions[Math.floor(Math.random() * questions.length)];
-        card.innerText = q;
-
-        // animation entrée
-        card.classList.remove("fade");
-
-    }, 200);
 }
 
-// splash remove
-setTimeout(() => {
+function nextQuestion(){
+
+    const card = document.getElementById("question");
+
+    const lowestCategory =
+        Object.keys(scores).reduce((a,b)=>
+            scores[a] < scores[b] ? a : b
+        );
+
+    let pool = questions.filter(q =>
+        q.category === lowestCategory &&
+        !usedQuestions.includes(q.text)
+    );
+
+    if(pool.length === 0){
+
+        usedQuestions = [];
+
+        pool = questions.filter(q =>
+            q.category === lowestCategory
+        );
+    }
+
+    const randomIndex = Math.floor(Math.random() * pool.length);
+
+    const question = pool[randomIndex];
+
+    usedQuestions.push(question.text);
+
+    scores[question.category]++;
+
+    updateScores();
+
+    card.classList.add("fade");
+
+    setTimeout(()=>{
+
+        card.innerText = question.text;
+
+        card.classList.remove("fade");
+
+    },200);
+}
+
+setTimeout(()=>{
+
     document.getElementById("splash").style.display = "none";
+
     nextQuestion();
-}, 1800);
+
+},1800);
 
 </script>
 
